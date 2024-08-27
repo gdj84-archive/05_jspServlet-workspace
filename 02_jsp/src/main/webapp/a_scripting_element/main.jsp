@@ -21,14 +21,14 @@
 	--%>
 	<% 
 		int sum = 0;
-		for(int i=1; i<=100; i++){
+		int ranNum = getRandom();
+		for(int i=1; i<=ranNum; i++){
 			sum += i;
 		}
 		System.out.println("덧셈결과: " + sum);
 	%>
 	
 	<b>덧셈결과: <% out.println(sum); %></b> <br>
-	
 	
 	<%--
 		2. 표현식 (Expression)
@@ -38,6 +38,16 @@
 	--%>
 	<b>덧셈결과: <%= sum %></b>  <%-- 내부적으로 <% out.println(sum); %> --%>
 	<br>
+	
+	<%-- if문 활용 (선택적으로 요소생성) --%>
+	<% if(sum >= 3000) { %>
+		<b>덧셈결과가 3000이상입니다.</b>
+	<% }else { %>
+		<i>덧셈결과가 3000미만입니다.</i>
+	<% } %>
+	
+	<br>
+	
 	
 	<% String[] name = {"김말똥", "홍길동", "강개순", "김말순"}; %>
 	
@@ -58,6 +68,11 @@
 		   2) 선언식으로 정의된 메소드는 해당 jsp에서 호출가능
 		   3) <%! 메소드 정의 %>
 	--%>
+	<%!
+		public int getRandom() {
+			return (int)(Math.random() * 100 + 1);
+		}
+	%>
 	
 
 </body>
