@@ -33,6 +33,19 @@ public class Member {
 		this.modifyDt = modifyDt;
 		this.status = status;
 	}
+	
+
+	public Member(String userId, String userPwd, String userName, String phone, String email, String address,
+			String interest) {
+		super();
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.phone = phone;
+		this.email = email;
+		this.address = address;
+		this.interest = interest;
+	}
 
 	public int getUserNo() {
 		return userNo;

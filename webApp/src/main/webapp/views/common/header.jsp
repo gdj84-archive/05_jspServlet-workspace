@@ -1,3 +1,4 @@
+<%@ page import="com.br.web.member.model.vo.Member" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -15,6 +16,11 @@
 
 <%
 	String contextPath = request.getContextPath(); // "/web"
+	
+	Member loginUser = (Member)session.getAttribute("loginUser");
+	// 해당 구문이 실행되는 시점 
+	// 로그인 요청 전 페이지 로드시 : null
+	// 로그인 성공 후 페이지 로드시 : 조회된 데이터가 담겨있는 Member객체
 %>
 
 <header class="row m-3">
@@ -24,6 +30,7 @@
   <div class="col-6"></div>
   <div class="col-3 d-flex justify-content-center align-items-center">
 
+		<% if(loginUser == null) { %>
     <!-- case1. 로그인전 -->
     <form action="<%= contextPath %>/login.me" method="post">
       <table>
@@ -38,20 +45,25 @@
         <tr>
           <td colspan="2" align="center">
             <button type="submit" class="btn btn-secondary btn-sm">로그인</button>
-            <button type="button" class="btn btn-secondary btn-sm">회원가입</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="signup-btn">회원가입</button>
+            <script>
+            	document.getElementById("signup-btn").addEventListener("click", () => {
+            		location.href = "<%=contextPath%>/signup.me";
+            	})
+            </script>
           </td>
         </tr>
       </table>
     </form>
-    
-    <!-- case2. 로그인후 
+    <% }else { %>
+    <!-- case2. 로그인후 -->
     <div>
-      <b>홍길동</b>님 환영합니다. <br><br>
+      <b><%= loginUser.getUserName() %></b>님 환영합니다. <br><br>
 
       <a href="">마이페이지</a>
-      <a href="">로그아웃</a>
+      <a href="<%=contextPath%>/logout.me">로그아웃</a>
     </div>
-    -->
+    <% } %>
 
   </div>
 </header>
