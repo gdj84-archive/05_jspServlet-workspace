@@ -19,21 +19,21 @@
 
 <header class="row m-3">
   <div class="col-3 d-flex justify-content-center align-items-center">
-    <a href=""><img src="<%= contextPath %>/assets/image/goodee_logo.png"></a>
+    <a href="<%=contextPath%>"><img src="<%= contextPath %>/assets/image/goodee_logo.png"></a>
   </div>
   <div class="col-6"></div>
   <div class="col-3 d-flex justify-content-center align-items-center">
 
     <!-- case1. 로그인전 -->
-    <form action="" method="">
+    <form action="<%= contextPath %>/login.me" method="post">
       <table>
         <tr>
           <th>ID</th>
-          <td><input type="text" class="form-control form-control-sm" placeholder="Enter Your ID"></td>
+          <td><input type="text" name="userId" class="form-control form-control-sm" placeholder="Enter Your ID" required></td>
         </tr>
         <tr>
           <th>PWD</th>
-          <td><input type="password" class="form-control form-control-sm" placeholder="Enter Your PWD"></td>
+          <td><input type="password" name="userPwd" class="form-control form-control-sm" placeholder="Enter Your PWD" required></td>
         </tr>
         <tr>
           <td colspan="2" align="center">
