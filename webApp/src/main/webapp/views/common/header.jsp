@@ -21,7 +21,18 @@
 	// 해당 구문이 실행되는 시점 
 	// 로그인 요청 전 페이지 로드시 : null
 	// 로그인 성공 후 페이지 로드시 : 조회된 데이터가 담겨있는 Member객체
+	
+	String alertMsg = (String)session.getAttribute("alertMsg");
+	// 해당 구문이 실행되는 시점
+	// 특정 서비스 요청 전 페이지 로드시 : null
+	// 특정 서비스 요청 성공 후 페이지 로드시 : alert로 띄워줄 메세지 
 %>
+
+<% if(alertMsg != null) { %>
+<script>
+	alert('<%=alertMsg%>');
+</script>
+<% session.removeAttribute("alertMsg"); } %>
 
 <header class="row m-3">
   <div class="col-3 d-flex justify-content-center align-items-center">
@@ -60,7 +71,7 @@
     <div>
       <b><%= loginUser.getUserName() %></b>님 환영합니다. <br><br>
 
-      <a href="">마이페이지</a>
+      <a href="<%=contextPath%>/myinfo.me">마이페이지</a>
       <a href="<%=contextPath%>/logout.me">로그아웃</a>
     </div>
     <% } %>

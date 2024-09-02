@@ -30,7 +30,7 @@ public class MemberInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 요청
+		// 1. 요청
 		// 요청시 전달값 뽑기
 		request.setCharacterEncoding("utf-8");
 		String userId = request.getParameter("userId"); // "user03"
@@ -52,19 +52,26 @@ public class MemberInsertController extends HttpServlet {
 		int result = new MemberService().insertMember(m);
 		
 		
-		// 응답
+		// 2. 응답
 		if(result > 0) {
 			/*
 			 * * 회원가입 성공
 			 *   ㄴ 응답페이지 : 메인페이지
-			 *   ㄴ 응답데이터 : 없음
+			 *   ㄴ 응답데이터 : "성공적으로 회원가입 되었습니다." alert 메세지
 			 */
+			
+			request.getSession().setAttribute("alertMsg", "성공적으로 회원가입 되었습니다.");
+			response.sendRedirect(request.getContextPath());
 		}else {
 			/*
 			 * * 회원가입 실패
 			 *   ㄴ 응답페이지 : 에러페이지 
 			 *   ㄴ 응답데이터 : "회원가입 실패" 메세지 (해당 응답페이지에서만 필요)
 			 */
+			
+			request.setAttribute("msg", "회원가입 실패");
+			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+			
 		}
 		
 	}
