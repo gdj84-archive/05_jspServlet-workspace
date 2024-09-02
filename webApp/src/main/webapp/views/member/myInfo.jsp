@@ -152,7 +152,7 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-          <form action="" method="">
+          <form action="<%= contextPath %>/delete.me" method="post">
             <table align="center">
               <tr>
                 <th colspan="2">
@@ -162,7 +162,7 @@
               </tr>
               <tr>
                 <th>현재 비밀번호</th>
-                <td><input type="password" class="form-control" required></td>
+                <td><input type="password" class="form-control" name="userPwd" required></td>
               </tr>
               <tr>
                 <td colspan="2" style="text-align:center; padding-top: 10px;">
