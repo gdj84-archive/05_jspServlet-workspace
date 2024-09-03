@@ -81,10 +81,10 @@
 <nav class="navbar m-3 navbar-expand-sm bg-dark navbar-dark d-flex justify-content-center">
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" href="#">Home</a>
+      <a class="nav-link" href="<%=contextPath%>">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">공지사항</a>
+      <a class="nav-link" href="<%= contextPath %>/list.no">공지사항</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="#">일반게시판</a>
