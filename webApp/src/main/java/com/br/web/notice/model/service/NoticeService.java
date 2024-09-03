@@ -8,6 +8,8 @@ import com.br.web.notice.model.vo.Notice;
 
 import static com.br.web.common.template.JDBCTemplate.getConnection;
 import static com.br.web.common.template.JDBCTemplate.close;
+import static com.br.web.common.template.JDBCTemplate.commit;
+import static com.br.web.common.template.JDBCTemplate.rollback;
 
 public class NoticeService {
 	
@@ -20,7 +22,17 @@ public class NoticeService {
 		return list;
 	}
 	
-	
+	public int insertNotice(Notice n) {
+		Connection conn = getConnection();
+		int result = nDao.insertNotice(conn, n);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
 	
 	
 	
