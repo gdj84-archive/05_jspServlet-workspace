@@ -44,17 +44,17 @@
 			FROM 
 					 NOTICE
 		 WHERE 
-		 			 NOTICE_NO = 특정 게시글 번호
+		 			 NOTICE_NO = ?
 	</entry>
 	
 	<entry key="updateNotice">
 		UPDATE
 					 NOTICE
 			 SET 
-			 		 NOTICE_TITLE = 사용자가 수정한 값
-			 	 , NOTICE_CONTENT = 사용자가 수정한 값 
+			 		 NOTICE_TITLE = ?
+			 	 , NOTICE_CONTENT = ?
 		 WHERE 
-		 			 NOTICE_NO = 특정 게시글 번호 
+		 			 NOTICE_NO = ?
 	</entry>
 	
 	<entry key="deleteNotice">

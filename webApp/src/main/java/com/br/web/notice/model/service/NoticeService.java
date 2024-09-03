@@ -34,9 +34,24 @@ public class NoticeService {
 		return result;
 	}
 	
+	public Notice selectNoticeByNo(int noticeNo) {
+		Connection conn = getConnection();
+		Notice n = nDao.selectNoticeByNo(conn, noticeNo);
+		close(conn);
+		return n;
+	}
 	
-	
-	
+	public int updateNotice(Notice n) {
+		Connection conn = getConnection();
+		int result = nDao.updateNotice(conn, n);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
 	
 
 }
