@@ -26,10 +26,11 @@
 
       <h2 class="m-4">공지사항 목록</h2>
 
-      <!-- 현재 로그인한 회원이 관리자 권한일 경우 보여지는 요소 -->
+      <% if(loginUser != null && loginUser.getStatus().equals("A")) { %>
       <div align="right">
-        <button type="button" class="btn btn-secondary btn-sm">등록하기</button>
+        <a href="<%= contextPath %>/write.no" class="btn btn-secondary btn-sm">등록하기</a>
       </div>
+      <% } %>
 
       <br>
       <table id="notice-list" class="table">
