@@ -64,7 +64,7 @@
 	              <% if(loginUser != null && loginUser.getUserId().equals(n.getNoticeWriter())) { %>
 	              <div align="center">
 	                <a href="<%= contextPath %>/modify.no?no=<%= n.getNoticeNo() %>" class="btn btn-secondary btn-sm">수정하기</a>
-	                <button type="button" class="btn btn-danger btn-sm">삭제하기</button>
+	                <a href="<%= contextPath %>/delete.no?no=<%= n.getNoticeNo() %>" class="btn btn-danger btn-sm">삭제하기</a>
 	              </div>
 	              <%--
 	              	* 공지사항 삭제하기 과제 *
