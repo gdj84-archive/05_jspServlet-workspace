@@ -1,5 +1,12 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.br.web.common.model.vo.PageInfo" %>
+<%@ page import="com.br.web.board.model.vo.Board" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	List<Board> list = (List<Board>)request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,66 +48,47 @@
           <tbody>
           	<!-- 사용자가 요청한 페이지에 뿌려줄 게시글 데이터 조회해와야됨 -->
           
+          	<% if(list.isEmpty()) { %>
             <!-- case1. 조회된 게시글이 없을 경우 -->
-            <!--
             <tr>
               <td colspan="6" style="text-align: center;">존재하는 게시글이 없습니다.</td>
             </tr>
-            -->
+            <% }else { %>
 
-            <!-- case2. 조회된 게시글이 있을 경우 -->
-            <tr>
-              <td>3</td>
-              <td>게임</td>
-              <td>글제목입니다</td>
-              <td>user01</td>
-              <td>200</td>
-              <td>2024-01-12</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>게임</td>
-                <td>글제목입니다</td>
-                <td>user02</td>
-                <td>200</td>
-                <td>2024-01-12</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>게임</td>
-                <td>글제목입니다</td>
-                <td>user02</td>
-                <td>200</td>
-                <td>2024-01-12</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>게임</td>
-                <td>글제목입니다</td>
-                <td>user01</td>
-                <td>200</td>
-                <td>2024-01-12</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>게임</td>
-                <td>글제목입니다</td>
-                <td>user03</td>
-                <td>200</td>
-                <td>2024-01-12</td>
-            </tr>
+	            <!-- case2. 조회된 게시글이 있을 경우 -->
+	            <% for(Board b : list){ %>
+	            <tr>
+	              <td><%= b.getBoardNo() %></td>
+	              <td><%= b.getCategory() %></td>
+	              <td><%= b.getBoardTitle() %></td>
+	              <td><%= b.getBoardWriter() %></td>
+	              <td><%= b.getBoardCount() %></td>
+	              <td><%= b.getRegistDt() %></td>
+	            </tr>
+	            <% } %>
+            
+            <% } %>
+            
           </tbody>
         </table>
 				
 				<!-- 사용자가 현재보고있는 페이지가 뭐냐에 따라서 다르게 보여질 페이징바 -->
         <ul class="pagination d-flex justify-content-center text-dark">
-          <li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
-          <li class="page-item active"><a class="page-link" href="">1</a></li>
-          <li class="page-item"><a class="page-link" href="">2</a></li>
-          <li class="page-item"><a class="page-link" href="">3</a></li>
-          <li class="page-item"><a class="page-link" href="">4</a></li>
-          <li class="page-item"><a class="page-link" href="">5</a></li>
-          <li class="page-item"><a class="page-link" href="">Next</a></li>
+        
+          <li class='page-item <%=pi.getCurrentPage() == 1 ? "disabled" : ""%>'>
+          	<a class="page-link" href="<%=contextPath%>/list.bo?page=<%=pi.getCurrentPage()-1%>">Previous</a>
+          </li>
+          
+          <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+          	<li class='page-item <%=p == pi.getCurrentPage() ? "active" : ""%>'>
+          		<a class="page-link" href="<%= contextPath %>/list.bo?page=<%=p%>"><%= p %></a>
+          	</li>
+          <% } %>
+          
+          <li class='page-item <%=pi.getCurrentPage() == pi.getMaxPage() ? "disabled" : ""%>'>
+          	<a class="page-link" href="<%=contextPath%>/list.bo?page=<%=pi.getCurrentPage()+1%>">Next</a>
+          </li>
+          
         </ul>
         
       </div>

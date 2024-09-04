@@ -117,10 +117,15 @@ public class BoardListController extends HttpServlet {
 		// * 페이징바를 제작하기 위한 데이터 => PageInfo vo 객체
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		// 사용자가 요청한 페이지상에 필요한 게시글 데이터 조회
+		// * 사용자가 요청한 페이지상에 필요한 게시글 데이터 조회
 		List<Board> list = new BoardService().selectBoardList(pi);
 	
-	
+		// 응답페이지 : 일반게시글 목록페이지 (/views/board/boardList.jsp)
+		// 응답데이터 : 페이징바 제작할 데이터, 게시글 데이터 
+		request.setAttribute("pi", pi);
+		request.setAttribute("list", list);
+		
+		request.getRequestDispatcher("/views/board/boardList.jsp").forward(request, response);
 	
 	}
 
