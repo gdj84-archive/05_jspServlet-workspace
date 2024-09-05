@@ -42,10 +42,14 @@
 					 CATEGORY
 	</entry>
 	
+	<!-- 일반게시글 등록하기 -->
+	<entry key="insertBoard">
 	
+	</entry>
 	
+	<entry key="insertAttachment">
 	
-	
+	</entry>
 	
 	
 	
