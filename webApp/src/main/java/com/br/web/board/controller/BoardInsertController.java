@@ -1,5 +1,6 @@
 package com.br.web.board.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.br.web.board.model.service.BoardService;
 import com.br.web.board.model.vo.Attachment;
 import com.br.web.board.model.vo.Board;
 import com.br.web.common.utils.MyFileRenamePolicy;
@@ -102,12 +104,30 @@ public class BoardInsertController extends HttpServlet {
 		// * multiRequest.getOriginalFileName("키") : 첨부파일이 있었을 경우 "원본명" | 없을 경우 null
 		if(multiRequest.getOriginalFileName("upfile") != null) {
 			at = new Attachment();
-			
+			at.setOriginName(multiRequest.getOriginalFileName("upfile"));
+			at.setChangeName(multiRequest.getFilesystemName("upfile"));
+			at.setFilePath("/resources/board_upfiles/");
 		}
 		
-		
+		// 서비스 요청 
+		int result = new BoardService().insertBoard(b, at);
 		
 		// 3. 응답
+		if(result > 0) { // 성공 => 다시목록페이지 => alert메세지
+			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
+			response.sendRedirect(request.getContextPath() + "/list.bo");
+		}else { // 실패 => 에러페이지 => 에러메세지
+			
+			// 첨부파일이 있었을 경우 
+			// 이미 업로드된 파일 => 더이상 쓸모없음 => 파일제거
+			if(at != null) {
+				new File(savePath + at.getChangeName()).delete();
+			}
+			
+			request.setAttribute("msg", "게시글 등록 실패");
+			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+			
+		}
 		
 	
 	}

@@ -2,11 +2,14 @@ package com.br.web.board.model.service;
 
 import static com.br.web.common.template.JDBCTemplate.close;
 import static com.br.web.common.template.JDBCTemplate.getConnection;
+import static com.br.web.common.template.JDBCTemplate.commit;
+import static com.br.web.common.template.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
 
 import com.br.web.board.model.dao.BoardDao;
+import com.br.web.board.model.vo.Attachment;
 import com.br.web.board.model.vo.Board;
 import com.br.web.board.model.vo.Category;
 import com.br.web.common.model.vo.PageInfo;
@@ -36,7 +39,28 @@ public class BoardService {
 		return list;
 	}
 	
-	
+	public int insertBoard(Board b, Attachment at) {
+		Connection conn = getConnection();
+		
+		// 1) Board에 Insert
+		int result = bDao.insertBoard(conn, b);
+		
+		if(result > 0 && at != null) {
+			// 2) Attachment에 Insert
+			result = bDao.insertAttachment(conn, at);
+		}
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+		
+		
+	}
 	
 	
 	
