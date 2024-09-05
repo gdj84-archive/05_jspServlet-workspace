@@ -25,12 +25,12 @@
 
         <h2 class="m-4">일반게시글 작성</h2>
         
-        <form action="" method="" class="m-4">
+        <form action="<%= contextPath %>/insert.bo" method="post" enctype="multipart/form-data" class="m-4">
           <table class="table">
             <tr>
               <th width="100">카테고리</th>
               <td>
-                <select name="" class="form-control">
+                <select name="category" class="form-control">
                 	<% for(Category c : list) { %>
                   <option value="<%=c.getCategoryNo()%>"><%=c.getCategoryName()%></option>
                   <% } %>
@@ -39,15 +39,15 @@
             </tr>
             <tr>
               <th>제목</th>
-              <td><input type="text" class="form-control" required></td>
+              <td><input type="text" class="form-control" name="title" required></td>
             </tr>
             <tr>
               <th>내용</th>
-              <td><textarea rows="10" class="form-control" style="resize:none;" required></textarea></td>
+              <td><textarea rows="10" class="form-control" name="content" style="resize:none;" required></textarea></td>
             </tr>
             <tr>
               <th>첨부파일</th>
-              <td><input type="file"></td>
+              <td><input type="file" name="upfile"></td>
             </tr>
             <tr>
               <td colspan="2" align="center">
