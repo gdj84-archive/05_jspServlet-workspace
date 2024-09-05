@@ -28,10 +28,11 @@
 
         <h2 class="m-4">일반게시글 목록</h2>
 
-        <!-- 현재 로그인되어있는 회원일 경우 보여지는 요소 -->
+        <% if(loginUser != null){ %>
         <div class="d-flex justify-content-end">
-          <button type="button" class="btn btn-secondary btn-sm">등록하기</button>
+          <a href="<%= contextPath %>/write.bo" class="btn btn-secondary btn-sm">등록하기</a>
         </div>
+        <% } %>
 
         <br>
         <table class="table">

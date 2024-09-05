@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.br.web.board.model.vo.Board;
+import com.br.web.board.model.vo.Category;
 import com.br.web.common.model.vo.PageInfo;
 
 public class BoardDao {
@@ -101,6 +102,30 @@ public class BoardDao {
 		
 	}
 	
+	public List<Category> selectCategoryList(Connection conn){
+		// select => ResultSet(여러행) => List<Category>
+		List<Category> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCategoryList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new Category(rset.getInt("category_no")
+									, rset.getString("category_name")));	
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
 	
 	
 	
