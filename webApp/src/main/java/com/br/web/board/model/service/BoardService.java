@@ -62,6 +62,13 @@ public class BoardService {
 		
 	}
 	
+	public void selectBoardByNo(int boardNo) {
+		Connection conn = getConnection();
+		
+		// 1) Board로부터 게시글 데이터 조회
+		Board b = bDao.selectBoard(conn, boardNo);
+		// 2) Attachment로부터 첨부파일 데이터 조회
+	}
 	
 	
 	

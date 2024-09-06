@@ -35,7 +35,7 @@
         <% } %>
 
         <br>
-        <table class="table">
+        <table class="table table-hover" id="board-list">
           <thead>
             <tr>
               <th width="100px">번호</th>
@@ -72,6 +72,18 @@
             
           </tbody>
         </table>
+        <script>
+        	$(function() {
+        		$('#board-list tbody>tr').on('click', function() {
+        			
+        			// 현재 클릭한 게시글 번호
+        			let no = $(this).children().eq(0).text();
+        			
+        			location.href = "<%=contextPath%>/detail.bo?no=" + no;
+        			
+        		})
+        	})
+        </script>
 				
 				<!-- 사용자가 현재보고있는 페이지가 뭐냐에 따라서 다르게 보여질 페이징바 -->
         <ul class="pagination d-flex justify-content-center text-dark">

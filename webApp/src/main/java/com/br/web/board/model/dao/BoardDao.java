@@ -175,7 +175,35 @@ public class BoardDao {
 		return result;
 	}
 	
+	public Board selectBoard(Connection conn, int boardNo) {
+		Board b = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Board();
+				b.setBoardNo(rset.getInt("board_no"));
+				b.setCategory(rset.getString("category_name"));
+				b.setBoardTitle(rset.getString("board_title"));
+				b.setBoardContent(rset.getString("board_content"));
+				b.setBoardWriter(rset.getString("user_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
+	public Attachment selectAttachment(Connection conn, int boardNo) {
+		
+	}
 	
 	
 
