@@ -1,12 +1,14 @@
 package com.br.web.board.model.service;
 
 import static com.br.web.common.template.JDBCTemplate.close;
-import static com.br.web.common.template.JDBCTemplate.getConnection;
 import static com.br.web.common.template.JDBCTemplate.commit;
+import static com.br.web.common.template.JDBCTemplate.getConnection;
 import static com.br.web.common.template.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.br.web.board.model.dao.BoardDao;
 import com.br.web.board.model.vo.Attachment;
@@ -62,12 +64,23 @@ public class BoardService {
 		
 	}
 	
-	public void selectBoardByNo(int boardNo) {
+	public Map<String, Object> selectBoardByNo(int boardNo) {
 		Connection conn = getConnection();
 		
 		// 1) Board로부터 게시글 데이터 조회
 		Board b = bDao.selectBoard(conn, boardNo);
 		// 2) Attachment로부터 첨부파일 데이터 조회
+		Attachment at = bDao.selectAttachment(conn, boardNo);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("b", b);
+		map.put("at", at);
+		
+		close(conn);
+		
+		return map;
+		
+		
 	}
 	
 	
