@@ -46,12 +46,10 @@ public class BoardModifyController extends HttpServlet {
 			request.setAttribute("msg", "존재하지 않는 게시글이거나 삭제된 게시글입니다.");
 			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
 		}else {
-			
+			request.setAttribute("list", list);
+			request.setAttribute("map", map);
+			request.getRequestDispatcher("/views/board/boardModify.jsp").forward(request, response);
 		}
-		
-		request.setAttribute("list", list);
-		request.setAttribute("map", map);
-		request.getRequestDispatcher("/views/board/boardModify.jsp").forward(request, response);
 	
 	}
 

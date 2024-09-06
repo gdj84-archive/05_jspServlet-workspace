@@ -96,6 +96,36 @@ public class BoardService {
 		
 	}
 	
+	public int updateBoard(Board b, Attachment at) {
+		Connection conn = getConnection();
+		
+		// 1) Board Update
+		int result = bDao.updateBoard(conn, b);
+		
+		if(result > 0 && at != null) {
+			if(at.getFileNo() != 0) {
+				// 2_1) Attachment Update
+				result = bDao.updateAttachment(conn, at);
+			} else {
+				// 2_2) Attachment Insert
+				result = bDao.insertNewAttachment(conn, at);
+			}
+		}
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+		
+	}
+	
+	
+	
+	
 	
 
 }

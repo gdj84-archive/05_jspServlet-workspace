@@ -27,12 +27,13 @@
 
         <h2 class="m-4">일반게시글 수정</h2>
         
-        <form action="" method="" class="m-4">
+        <form action="<%= contextPath %>/update.bo" method="post" enctype="multipart/form-data" class="m-4">
+          <input type="hidden" name="no" value="<%= b.getBoardNo() %>">
           <table class="table">
             <tr>
               <th width="100">카테고리</th>
               <td>
-                <select name="" class="form-control">
+                <select name="category" class="form-control">
                 	<% for(Category c : list){ %>
                   <option value="<%= c.getCategoryNo() %>" <%= c.getCategoryName().equals(b.getCategory()) ? "selected" : "" %>><%= c.getCategoryName() %></option>
                   <% } %>
@@ -41,20 +42,21 @@
             </tr>
             <tr>
               <th>제목</th>
-              <td><input type="text" class="form-control" required value="기존 게시글 제목"></td>
+              <td><input type="text" class="form-control" required name="title" value="<%=b.getBoardTitle()%>"></td>
             </tr>
             <tr>
               <th>내용</th>
-              <td><textarea rows="10" class="form-control" style="resize:none;" required>기존 게시글 내용</textarea></td>
+              <td><textarea rows="10" class="form-control" style="resize:none;" name="content" required><%= b.getBoardContent() %></textarea></td>
             </tr>
             <tr>
               <th>첨부파일</th>
               <td>
-                <!-- 기존에 첨부파일이 있었을 경우 보여지는 기존 첨부파일명 -->
-                기존첨부파일명.확장자 <br>
-
+                <% if(at != null) { %>
+                	<%= at.getOriginName() %> <br>
+                	<input type="hidden" name="originFileNo" value="<%=at.getFileNo()%>">
+								<% } %>
                 <!-- 새로이 첨부파일 업로드 해서 수정 가능 -->
-                <input type="file">
+                <input type="file" name="upfile">
               </td>
             </tr>
             <tr>
