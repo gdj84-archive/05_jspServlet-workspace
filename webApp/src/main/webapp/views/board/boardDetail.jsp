@@ -28,11 +28,11 @@
         <h2 class="m-4">일반게시글 상세조회</h2>
 
         <div class="d-flex justify-content-end">
-          <!-- 현재 로그인되어있는 회원이 해당 게시글의 작성자 본인일 경우 보여지는 요소 -->
-          <button type="button" class="btn btn-secondary btn-sm">수정하기 페이지로</button> &nbsp;
+          <% if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())) { %>
+          <a href="<%= contextPath %>/modify.bo?no=<%= b.getBoardNo() %>" class="btn btn-secondary btn-sm">수정하기 페이지로</a> &nbsp;
           <button type="button" class="btn btn-danger btn-sm">삭제하기</button> &nbsp;
-          <!-- ------------------------------------------------------------------------- -->
-          <button type="button" class="btn btn-warning btn-sm">목록가기</button>
+          <% } %>
+          <a href="<%= contextPath %>/list.bo" class="btn btn-warning btn-sm">목록가기</a>
         </div>
 
         <table class="table m-4">

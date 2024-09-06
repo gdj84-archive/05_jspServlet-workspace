@@ -78,9 +78,18 @@
         			
         			// 현재 클릭한 게시글 번호
         			let no = $(this).children().eq(0).text();
+        			// 현재 클릭한 게시글 작성자 아이디
+        			let writer = $(this).children().eq(3).text();
+        			// 현재 로그인한 회원 아이디
+        			let loginUserId = '<%= loginUser == null ? "" : loginUser.getUserId() %>';
         			
-        			location.href = "<%=contextPath%>/detail.bo?no=" + no;
-        			
+        			if(writer == loginUserId) {
+        				// 현재 내가 쓴 글일 경우 => 조회수증가없이 상세페이지로 바로 이동
+        				location.href = "<%=contextPath%>/detail.bo?no=" + no;
+        			}else{
+        				// 내가 쓴 글이 아닐 경우 => 조회수증가하면서 상세페이지로 이동
+        				location.href = "<%=contextPath%>/increase.bo?no=" + no;
+        			}
         		})
         	})
         </script>

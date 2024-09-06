@@ -113,7 +113,14 @@
 		 			 REF_BOARD_NO = ?
 	</entry>
 	
-	
+	<entry key="increaseCount">
+		UPDATE
+					 BOARD
+			 SET 
+			 		 BOARD_COUNT = BOARD_COUNT + 1
+		 WHERE 
+		 			 BOARD_NO = ?
+	</entry>
 	
 	
 </properties>

@@ -83,6 +83,18 @@ public class BoardService {
 		
 	}
 	
+	public int increaseCount(int boardNo) {
+		Connection conn = getConnection();
+		int result = bDao.increaseCount(conn, boardNo);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+		
+	}
 	
 	
 
