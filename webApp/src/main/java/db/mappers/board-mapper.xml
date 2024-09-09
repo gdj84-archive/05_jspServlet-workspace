@@ -94,6 +94,7 @@
 				 , USER_ID
 			FROM 
 					 BOARD B
+			LEFT 
 			JOIN CATEGORY USING(CATEGORY_NO)
 			JOIN MEMBER ON (USER_NO = BOARD_WRITER)	
 		 WHERE 
@@ -111,6 +112,8 @@
 		  	   ATTACHMENT
 		 WHERE 
 		 			 REF_BOARD_NO = ?
+		 ORDER
+		    BY FILE_LEVEL ASC
 	</entry>
 	
 	<entry key="increaseCount">
@@ -164,11 +167,61 @@
 		  )
 	</entry>
 	
+	<entry key="insertThBoard">
+		INSERT
+		  INTO BOARD
+		  (
+		    BOARD_NO
+		  , BOARD_TYPE
+		  , BOARD_TITLE
+		  , BOARD_CONTENT
+		  , BOARD_WRITER
+		  )
+		  VALUES
+		  (
+		    SEQ_BNO.NEXTVAL
+		  , 2
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
 	
+	<entry key="insertThAttachment">
+		INSERT 
+		  INTO ATTACHMENT
+		  (
+		    FILE_NO
+		  , REF_BOARD_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+		  , FILE_PATH
+		  , FILE_LEVEL
+		  )
+		  VALUES
+		  (
+		    SEQ_FNO.NEXTVAL
+		  , SEQ_BNO.CURRVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
 	
-	
-	
-	
+	<entry key="selectThumbnailList">
+		SELECT
+		       BOARD_NO
+		     , BOARD_TITLE
+		     , FILE_PATH || CHANGE_NAME as TITLEIMG_URL
+		  FROM BOARD B
+		  JOIN ATTACHMENT ON (REF_BOARD_NO = BOARD_NO)
+		 WHERE BOARD_TYPE = 2
+		   AND B.STATUS = 'Y'
+		   AND FILE_LEVEL = 1
+		 ORDER
+		    BY BOARD_NO DESC
+	</entry>
 	
 	
 	

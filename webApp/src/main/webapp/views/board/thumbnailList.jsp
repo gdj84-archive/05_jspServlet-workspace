@@ -1,10 +1,18 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.br.web.board.model.vo.Board" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	List<Board> list = (List<Board>)request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.thumbnail{cursor:pointer;}
+</style>
 </head>
 <body>
 
@@ -27,52 +35,26 @@
         </div>
         <% } %>
 
-        <div class="board-list d-flex flex-wrap justify-content-center">
+        <div class="board-list d-flex flex-wrap">
 
-					<!-- 
-          <div class="card m-3" style="width:270px">
-            <img class="card-img-top" src="../../assets/image/city3.jpg">
+					<% for(Board b : list){ %>
+          <div class="thumbnail card m-3" style="width:270px" data-no="<%=b.getBoardNo()%>">
+            <img class="card-img-top" style="width: 270px; height: 200px;" src="<%= contextPath + b.getTitleImgURL() %>">
             <div class="card-body">
-              <p class="card-text">게시글 제목</p>
+              <p class="card-text"><%= b.getBoardTitle() %></p>
             </div>
           </div>
-
-          <div class="card m-3" style="width:270px">
-            <img class="card-img-top" src="../../assets/image/city3.jpg">
-            <div class="card-body">
-              <p class="card-text">게시글 제목</p>
-            </div>
-          </div>
-
-          <div class="card m-3" style="width:270px">
-            <img class="card-img-top" src="../../assets/image/city3.jpg">
-            <div class="card-body">
-              <p class="card-text">게시글 제목</p>
-            </div>
-          </div>
-
-          <div class="card m-3" style="width:270px">
-            <img class="card-img-top" src="../../assets/image/city3.jpg">
-            <div class="card-body">
-              <p class="card-text">게시글 제목</p>
-            </div>
-          </div>
-          
-          <div class="card m-3" style="width:270px">
-            <img class="card-img-top" src="../../assets/image/city3.jpg">
-            <div class="card-body">
-              <p class="card-text">게시글 제목</p>
-            </div>
-          </div>
-          <div class="card m-3" style="width:270px">
-            <img class="card-img-top" src="../../assets/image/city3.jpg">
-            <div class="card-body">
-              <p class="card-text">게시글 제목</p>
-            </div>
-          </div>
-					-->
+          <% } %>
 					 
         </div>
+        
+        <script>
+        	$(function() {
+        		$('.thumbnail').on('click', function() {
+        			location.href = '<%= contextPath %>/detail.th?no=' + $(this).data('no');
+        		})
+        	})
+        </script>
         
 
       </div>

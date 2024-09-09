@@ -14,6 +14,8 @@ public class Board {
 	private Date registDt;
 	private String status;
 	
+	private String titleImgURL; // 해당 사진게시글의 대표이미지 경로
+	
 	public Board() {}
 
 	public Board(int boardNo, int boardType, String category, String boardTitle, String boardContent,
@@ -44,6 +46,14 @@ public class Board {
 
 	public int getBoardNo() {
 		return boardNo;
+	}
+
+	public String getTitleImgURL() {
+		return titleImgURL;
+	}
+
+	public void setTitleImgURL(String titleImgURL) {
+		this.titleImgURL = titleImgURL;
 	}
 
 	public void setBoardNo(int boardNo) {

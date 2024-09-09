@@ -123,8 +123,51 @@ public class BoardService {
 		
 	}
 	
+	public int insertThumbnailBoard(Board b, List<Attachment> list) {
+		Connection conn = getConnection();
+		
+		// 1) Board Insert
+		int result = bDao.insertThBoard(conn, b);
+		if(result > 0) {
+			// 2) Attachment 다수 Insert
+			result = bDao.insertThAttachment(conn, list);
+		}
+		
+		if(result == list.size()) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+		
+	}
 	
+	public List<Board> selectThumbnailList(){
+		Connection conn = getConnection();
+		List<Board> list = bDao.selectThumbnailList(conn);
+		close(conn);
+		return list;
+	}
 	
+	public Map<String, Object> selectThumbnailByNo(int boardNo) {
+		Connection conn = getConnection();
+		
+		// 1) 게시글 데이터 조회 
+		Board b = bDao.selectBoard(conn, boardNo);
+		// 2) 게시글에 딸린 첨부파일 목록 조회 
+		List<Attachment> list = bDao.selectAttachmentList(conn, boardNo);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("b", b);
+		map.put("list", list);
+		
+		close(conn);
+		
+		return map;
+		
+	}
 	
 	
 
