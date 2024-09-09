@@ -90,7 +90,7 @@
       <a class="nav-link" href="<%= contextPath %>/list.bo">일반게시판</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">사진게시판</a>
+      <a class="nav-link" href="<%= contextPath %>/list.th">사진게시판</a>
     </li>
   </ul>
 </nav>
