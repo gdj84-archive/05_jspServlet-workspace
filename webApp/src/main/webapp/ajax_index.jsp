@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 	<h1>AJAX</h1>
@@ -82,9 +83,82 @@
 					11) password 		: 서버에 접속 권한(비밀번호)이 필요한 경우
 					12) processData : 서버로 보내는 값에 대한 형태 설정 여부(기본 데이터를 원하는 경우 false설정)
 			 	  13) timeout 		: 서버 요청 시 응답 대기 시간(milisecond)	  
-		      								 
-		
+		      					
 	--%>
+	
+	<h2>기존에 했던 동기식 방식으로 요청해보기</h2>
+	
+	<h3>1. form submit으로 url 요청</h3>
+	<form action="/web/test1.do" method="get">
+		<input type="text" name="input">
+		<button type="submit">요청</button>
+	</form>
+	
+	<h3>2. a로 url 요청</h3>
+	<a href="/web/test1.do?input=홍길동">요청</a>
+	
+	<hr>
+	
+	<h2>AJAX 이용해서 비동기식 방식으로 요청해보기</h2>
+	<h3>1. 요청시 값 전달 및 문자열 응답데이터 응답하기</h3>
+	
+	입력: <input type="text" id="input1">
+	<button onclick="fnAjaxTest1();">요청</button>
+	<br>
+	
+	응답 - <span id="output1">현재응답없음</span>
+	
+	<script>
+		function fnAjaxTest1() {
+			$.ajax({
+				url: '/web/test1.do',
+				//data: 'input=' + $('#input1').val()
+				data: {input: $('#input1').val()},
+				success: function(res) { // 매개변수에 돌아오는 응답데이터 담김
+					console.log('ajax 통신 성공');
+					console.log(res);
+					$('#output1').text(res);
+				},
+				error: function() {
+					console.log('ajax 통신 실패');
+				},
+				complete: function() {
+					console.log('ajax 통신 성공여부와 상관없이 무조건 출력');
+				}
+			})
+		}
+	</script>
+	
+	<br>
+	
+	<h3>2. 요청시 값 전달 및 여러개의 응답데이터를 JSON객체 이용해서 응답하기</h3>
+	
+	이름: <input type="text" id="input2_1"> <br>
+	나이: <input type="number" id="input2_2"> <br><br>
+	
+	<button onclick="fnAjaxTest2_1();">JSONArray 활용</button>
+	<ul id="output2_1"></ul>
+	
+	
+	<script>
+		function fnAjaxTest2_1() {
+			$.ajax({
+				url: '/web/test2.do',
+				data: {
+					name: $('#input2_1').val(),
+					age : $('#input2_2').val(),
+					flag: 'array'
+				},
+				success: function(res) {
+					console.log(res);
+				},
+				error: function() {
+					console.log('ajax2_1 통신 실패');
+				}
+			})
+		}
+	</script>
+	
 	
 	
 	
