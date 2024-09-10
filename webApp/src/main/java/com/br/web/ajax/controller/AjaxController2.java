@@ -1,11 +1,15 @@
 package com.br.web.ajax.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * Servlet implementation class AjaxController2
@@ -56,10 +60,20 @@ public class AjaxController2 extends HttpServlet {
 		
 		if(flag.equals("array")) {
 			// JSONArray 활용해서 응답 연습
+			JSONArray jArr = new JSONArray(); // []
+			jArr.add(name); // ["홍길동"]
+			jArr.add(age);  // ["홍길동", 21]
 			
+			response.setContentType("application/json; charset=UTF-8"); // JSON 데이터를 응답할때 
+			response.getWriter().print(jArr);
 		}else {
 			// JSONObject 활용해서 응답 연습
+			JSONObject jObj = new JSONObject(); // {}
+			jObj.put("name", name); // {"name": "홍길동"}
+			jObj.put("age" , age);	// {"name": "홍길동", "age": 21}
 			
+			response.setContentType("application/json; charset=UTF-8");
+			response.getWriter().print(jObj);
 		}
 		
 		

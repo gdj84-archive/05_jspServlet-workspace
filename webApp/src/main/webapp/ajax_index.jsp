@@ -150,10 +150,40 @@
 					flag: 'array'
 				},
 				success: function(res) {
-					console.log(res);
+					console.log(res); // ['강개순', 21]
+					let liEl = '';
+					for(let data of res){
+						liEl += '<li>' + data + '</li>';
+					}
+					$('#output2_1').html(liEl);
 				},
 				error: function() {
 					console.log('ajax2_1 통신 실패');
+				}
+			})
+		}
+	</script>
+	
+	<button onclick="fnAjaxTest2_2();">JSONObject 활용</button>
+	<ul id="output2_2"></ul>
+	
+	<script>
+		function fnAjaxTest2_2() {
+			$.ajax({
+				url: '/web/test2.do',
+				data: {
+					name: $('#input2_1').val(),
+					age : $('#input2_2').val(),
+					flag: 'object'
+				},
+				success: function(res) {
+					console.log(res); // {name: '홍길동', age: 10}
+					let liEl = '<li>' + res.name + '</li>'
+									 + '<li>' + res.age  + '</li>';
+					$('#output2_2').html(liEl);
+				},
+				error: function(){
+					console.log('ajax2_2 통신 실패');
 				}
 			})
 		}
