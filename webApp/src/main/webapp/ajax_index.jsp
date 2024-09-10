@@ -189,6 +189,48 @@
 		}
 	</script>
 	
+	<h3>3. 조회 요청 후 조회된 데이터가 vo객체라는 가정하에 응답하기</h3>
+	검색하고자 하는 글번호: <input type="text" id="input3">
+	<button onclick="fnAjaxTest3();">검색</button>
+	
+	<div id="output3"></div>
+	
+	<script>
+		function fnAjaxTest3(){
+			$.ajax({
+				url: '/web/test3.do',
+				data: {no: $('#input3').val()},
+				success: function(res){
+					console.log(res); // {속성:속성값, 속성:속성값, ..}
+					
+					let el = '<h1>제목: '   + res.boardTitle  + '</h1>'
+								 + '<h2>작성자: ' + res.boardWriter + '</h2>'
+								 + '<p>내용: '    + res.boardContent + '</p>';
+								 
+					$('#output3').html(el);
+					
+				},
+				error: function(){
+					console.log('ajax3 통신 실패');
+				}
+			})
+		}
+	</script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	
 	
 	
