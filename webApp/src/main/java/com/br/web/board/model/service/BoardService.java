@@ -177,7 +177,17 @@ public class BoardService {
 		return list;
 	}
 	
-
+	public int insertReply(Reply r) {
+		Connection conn = getConnection();
+		int result = bDao.insertReply(conn, r);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
 	
 	
 	

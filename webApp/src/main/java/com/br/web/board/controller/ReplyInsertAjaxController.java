@@ -1,7 +1,6 @@
 package com.br.web.board.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,19 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.br.web.board.model.service.BoardService;
 import com.br.web.board.model.vo.Reply;
-import com.google.gson.Gson;
+import com.br.web.member.model.vo.Member;
 
 /**
- * Servlet implementation class ReplyListAjaxController
+ * Servlet implementation class ReplyInsertAjaxController
  */
-@WebServlet("/list.re")
-public class ReplyListAjaxController extends HttpServlet {
+@WebServlet("/insert.re")
+public class ReplyInsertAjaxController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReplyListAjaxController() {
+    public ReplyInsertAjaxController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,11 +33,19 @@ public class ReplyListAjaxController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		int boardNo = Integer.parseInt(request.getParameter("no"));
-	
-		List<Reply> list = new BoardService().selectReplyList(boardNo);
+		String replyContent = request.getParameter("content");
+		int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 		
-		response.setContentType("application/json; charset=UTF-8");
-		new Gson().toJson(list, response.getWriter());
+		Reply r = new Reply();
+		r.setRefBoardNo(boardNo);
+		r.setReplyContent(replyContent);
+		r.setReplyWriter(String.valueOf(userNo));
+		
+		int result = new BoardService().insertReply(r);
+	
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(result);
+	
 	}
 
 	/**

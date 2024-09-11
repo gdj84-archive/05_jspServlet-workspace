@@ -21,6 +21,14 @@ public class Reply {
 		this.status = status;
 	}
 
+	public Reply(int replyNo, String replyWriter, String replyContent, String registDt) {
+		super();
+		this.replyNo = replyNo;
+		this.replyWriter = replyWriter;
+		this.replyContent = replyContent;
+		this.registDt = registDt;
+	}
+
 	public int getReplyNo() {
 		return replyNo;
 	}

@@ -74,46 +74,80 @@
         	<thead>
         		<tr>
         			<th style="vertical-align:middle">댓글작성</th>
-        			<th width="650px"><textarea rows="3" class="form-control" style="resize:none;"></textarea></th>
-        			<th style="vertical-align:middle"><button class="btn btn-secondary">댓글등록</button></th>
+        			
+        			<% if(loginUser == null){ %>
+        			<th width="650px"><textarea rows="3" class="form-control" style="resize:none;" readonly>로그인 후 이용가능한 서비스입니다.</textarea></th>
+        			<th style="vertical-align:middle"><button class="btn btn-secondary" disabled>댓글등록</button></th>
+        			<% }else { %>
+        			<th width="650px"><textarea rows="3" class="form-control" style="resize:none;" id="reply-content"></textarea></th>
+        			<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="fnReplyInsert();">댓글등록</button></th>
+        			<% } %>
         		</tr>
         	</thead>
         	<tbody>
-        		<!-- case1. 댓글이 없을 경우 
-        		<tr>
-        			<td colspan="3">존재하는 댓글이 없습니다.</td>
-        		</tr>
-        		-->
-        		
-        		<!-- case2. 댓글이 존재할 경우 -->
-        		<tr>
-        			<th>user01</th>
-        			<td>댓글내용입니다~~~ <span>x</span></td>
-        			<td>24/08/21 10:00</td>
-        		</tr>
-        		<tr>
-        			<th>user01</th>
-        			<td>댓글내용입니다~~~</td>
-        			<td>24/08/21 10:00</td>
-        		</tr>
-        		<tr>
-        			<th>user01</th>
-        			<td>댓글내용입니다~~~</td>
-        			<td>24/08/21 10:00</td>
-        		</tr>
         	</tbody>
         </table>
         
         <script>
+        	$(function() {
+        		fnReplyList();
+        	})
         	
-        	// 현재 게시글의 댓글 목록 조회용 함수
+        	// 댓글 작성용 함수 (ajax요청)
+        	function fnReplyInsert() {
+        		$.ajax({
+        			url: '<%=contextPath%>/insert.re',
+        			data: {
+        				no: <%=b.getBoardNo()%>,
+        				content: $("#reply-content").val()
+        			},
+        			type: "post",
+        			success: function(res){
+        				if(res > 0){ // 댓글작성성공
+        					$("#reply-content").val(""); // 텍스트상자 초기화
+        					fnReplyList(); // 갱신된 댓글 목록 조회해서 다시 화면에 뿌리기
+        				}
+        			},
+        			error: function() {
+        				console.log('댓글 작성용 ajax 통신 실패');
+        			}
+        		})
+        	}
+        	
+        	// 현재 게시글의 댓글 목록 조회용 함수 (ajax요청)
         	function fnReplyList() {
         		
         		$.ajax({
         			url: '<%=contextPath%>/list.re',
         			data: {no: <%=b.getBoardNo()%>},
         			success: function(res){
-        				console.log(res);
+        				console.log(res); // [{Reply객체}, {Reply객체}, {Reply객체}]
+        			
+        				let trEl = "";
+        				if(res.length == 0){ // 댓글이 없을 경우
+        					trEl += '<tr><td colspan="3">존재하는 댓글이 없습니다.</td></tr>';
+        				}else{ // 댓글이 있을 경우
+        					
+        					for(let i=0; i<res.length; i++){
+        						
+        						trEl += '<tr>'
+        								  + 	'<th>' + res[i].replyWriter + '</th>'
+        								  +		'<td>' + res[i].replyContent;
+        								  
+        					  if(res[i].replyWriter == '<%= loginUser == null ? "" : loginUser.getUserId()%>'){
+        						  trEl += ' <span>x</span>';
+        					  }
+        					  
+        					  trEl += 	'</td>'
+        					  			+ 	'<td>' + res[i].registDt + '</td>'
+        					  			+ '</tr>';        					  
+        						
+        					}
+        				
+        				}
+        				
+        				$('#reply-area tbody').html(trEl);    
+        			
         			},
         			error: function(){
         				console.log('댓글 목록 조회용 ajax 통신 실패');

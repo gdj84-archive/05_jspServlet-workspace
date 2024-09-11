@@ -233,13 +233,29 @@
 					 REPLY R
 			JOIN MEMBER ON (USER_NO = REPLY_WRITER)
 		 WHERE
-		 			 REF_BOARD_NO = 현재게시글번호
+		 			 REF_BOARD_NO = ?
 		 	 AND R.STATUS = 'Y'
 		 ORDER
 		    BY REPLY_NO DESC
 	</entry>
 	
-	
+	<entry key="insertReply">
+		INSERT
+		  INTO REPLY
+		  (
+		    REPLY_NO
+		  , REPLY_WRITER
+		  , REPLY_CONTENT
+		  , REF_BOARD_NO
+		  )
+		  VALUES
+		  (
+		    SEQ_RNO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
 	
 	
 	
