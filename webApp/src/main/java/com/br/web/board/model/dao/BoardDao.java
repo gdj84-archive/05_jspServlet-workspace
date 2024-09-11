@@ -426,6 +426,9 @@ public class BoardDao {
 		return list;
 	}
 	
+	public List<Reply> selectReplyList(Connection conn, int boardNo){
+		
+	}
 	
 	
 	
