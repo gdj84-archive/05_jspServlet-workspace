@@ -57,10 +57,24 @@
 	
 	<h4>1. 표준 액션 태그 (Standard Action Tag)</h4>
 	<a href="<%=request.getContextPath()%>/02_standardAction/include.jsp">1) jsp:include</a> <br>
-	<a href=""></a>
+	<a href="<%=request.getContextPath()%>/02_standardAction/forward.jsp">2) jsp:forward</a>
 	
-	
-	
+	<h4>2. 커스텀 액션 태그 (JSTL)</h4>
+	<%--
+		* JSTL
+		  1. JSP Standard Tag Library
+		  2. 자주 쓰는 자바 코드를 보다 쉽게 사용할 수 있도록 태그화 시킨 대표적인 라이브러리
+		  3. 라이브러리 연동 
+		     1) jstl 라이브러리(jar) 다운 받기 => lib 폴더에 넣기 
+		     2) jstl 구문을 작성하기 위한 jsp 상단에 taglib 지시어로 라이브러리 연동하기
+		  4. 대표적인 라이브러리 종류
+		     1) Core Library			 : 변수와 제어문 등의 로직과 관련된 문법 제공
+		     2) Formatting Library : 숫자, 날짜 및 시간 데이터의 출력 형식 관련 문법 제공 
+		     3) Function Library   : EL 구문 내에서 사용 가능하는 함수 제공 
+	--%>
+	<a href="${ pageContext.request.contextPath }/03_customAction/core.jsp">1) JSTL Core Library ****</a> <br>
+	<a href="">2) JSTL Formatting Library</a> <br>
+	<a href="">3) JSTL Function Library</a>
 	
 	
 </body>
