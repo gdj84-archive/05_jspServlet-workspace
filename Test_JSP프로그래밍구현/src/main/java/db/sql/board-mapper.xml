@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectBoardAll">
+		SELECT
+			   BOARD_NO
+			 , CATEGORY
+			 , BOARD_TITLE
+			 , COUNT 
+		     , TO_CHAR(CREATE_DATE, 'YY/MM/DD') "CREATE_DATE"
+		  FROM TESTBOARD
+		 WHERE STATUS = 'Y'
+	</entry>
+	
+	<entry key="insertBoard">
+		INSERT
+		  INTO TESTBOARD
+		  (
+		    BOARD_NO
+		  , CATEGORY
+		  , BOARD_TITLE
+		  , BOARD_CONTENT
+		  , FILE_ORIGINNAME
+		  , FILE_URL
+		  )
+		  VALUES
+		  (
+		    SEQ_TBNO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
+	
+	
+	
+</properties>
+
+
+
+

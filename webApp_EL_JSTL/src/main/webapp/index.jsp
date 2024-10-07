@@ -11,7 +11,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp"/>
     <!-- Header, Nav end -->
 
     <!-- Section start -->
@@ -27,7 +27,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>
