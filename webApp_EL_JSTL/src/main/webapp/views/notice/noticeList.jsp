@@ -2,8 +2,10 @@
 <%@ page import="com.br.web.notice.model.vo.Notice" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <%
-	List<Notice> list = (List<Notice>)request.getAttribute("list");
+	//List<Notice> list = (List<Notice>)request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html>
@@ -16,7 +18,7 @@
 	<div class="container p-3">
 
    <!-- Header, Nav start -->
-   <%@ include file="/views/common/header.jsp" %>
+   <jsp:include page="/views/common/header.jsp"/>
    <!-- Header, Nav end -->
 
    <!-- Section start -->
@@ -28,7 +30,7 @@
 
       <% if(loginUser != null && loginUser.getStatus().equals("A")) { %>
       <div align="right">
-        <a href="<%= contextPath %>/write.no" class="btn btn-secondary btn-sm">등록하기</a>
+        <a href="${ contextPath }/write.no" class="btn btn-secondary btn-sm">등록하기</a>
       </div>
       <% } %>
 
@@ -63,20 +65,9 @@
 	              
 	              <% if(loginUser != null && loginUser.getUserId().equals(n.getNoticeWriter())) { %>
 	              <div align="center">
-	                <a href="<%= contextPath %>/modify.no?no=<%= n.getNoticeNo() %>" class="btn btn-secondary btn-sm">수정하기</a>
-	                <a href="<%= contextPath %>/delete.no?no=<%= n.getNoticeNo() %>" class="btn btn-danger btn-sm">삭제하기</a>
+	                <a href="${ contextPath }/modify.no?no=<%= n.getNoticeNo() %>" class="btn btn-secondary btn-sm">수정하기</a>
+	                <a href="${ contextPath }/delete.no?no=<%= n.getNoticeNo() %>" class="btn btn-danger btn-sm">삭제하기</a>
 	              </div>
-	              <%--
-	              	* 공지사항 삭제하기 과제 *
-	              	  삭제하기 버튼 클릭시 /delete.no 요청하도록 
-	              	  이때 삭제할 글번호 넘기기 
-	              	  
-	              	  미리작성해둔 쿼리 실행 후 
-	              	  
-	              	  성공일 경우 다시 목록페이지가 보여지도록, alert메세지로 성공메세지
-	              	  실패일 경우 에러페이지 보여지도록, 에러메세지 출력되도록
-	              --%>
-	              
 	              <% } %>
 	            </td>
 	          </tr>
@@ -93,7 +84,7 @@
    <!-- Section end -->
 
    <!-- Footer start -->
-   <%@ include file="/views/common/footer.jsp" %>
+   <jsp:include page="/views/common/footer.jsp"/>
    <!-- Footer end -->
 
  </div>

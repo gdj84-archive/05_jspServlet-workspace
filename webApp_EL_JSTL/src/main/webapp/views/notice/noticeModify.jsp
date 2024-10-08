@@ -1,9 +1,5 @@
-<%@ page import="com.br.web.notice.model.vo.Notice" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	Notice n = (Notice)request.getAttribute("n"); // 글번호, 글제목, 글내용
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +11,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp" />
     <!-- Header, Nav end -->
 
     <!-- Section start -->
@@ -24,16 +20,16 @@
       <div class="container border p-5 m-4 rounded">
         <h2 class="m-4">공지사항 수정</h2>
         
-        <form action="<%=contextPath %>/update.no" method="post" class="m-4">
-        	<input type="hidden" name="no" value="<%=n.getNoticeNo()%>">
+        <form action="${ pageContext.request.contextPath }/update.no" method="post" class="m-4">
+        	<input type="hidden" name="no" value="${ n.noticeNo }">
           <table class="table">
             <tr>
               <th>제목</th>
-              <td><input type="text" class="form-control" required name="title" value="<%= n.getNoticeTitle() %>"></td>
+              <td><input type="text" class="form-control" required name="title" value="${ n.noticeTitle }"></td>
             </tr>
             <tr>
               <th>내용</th>
-              <td><textarea rows="10" class="form-control" style="resize:none" name="content" required><%= n.getNoticeContent() %></textarea></td>
+              <td><textarea rows="10" class="form-control" style="resize:none" name="content" required>${ n.noticeContent }</textarea></td>
             </tr>
           </table>
 
@@ -53,7 +49,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>

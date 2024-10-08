@@ -74,7 +74,7 @@
 	--%>
 	<a href="${ pageContext.request.contextPath }/03_customAction/core.jsp">1) JSTL Core Library ****</a> <br>
 	<a href="${ pageContext.request.contextPath }/03_customAction/fmt.jsp">2) JSTL Formatting Library</a> <br>
-	<a href="">3) JSTL Function Library</a>
+	<a href="${ pageContext.request.contextPath }/03_customAction/fn.jsp">3) JSTL Function Library</a>
 	
 	
 </body>
