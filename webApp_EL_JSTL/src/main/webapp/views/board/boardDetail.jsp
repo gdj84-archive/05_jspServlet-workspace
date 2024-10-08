@@ -1,13 +1,7 @@
-<%@ page import="java.util.Map" %>
-<%@ page import="com.br.web.board.model.vo.Board" %>
-<%@ page import="com.br.web.board.model.vo.Attachment" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	Map<String, Object> map = (Map<String, Object>)request.getAttribute("map");
-	Board b = (Board)map.get("b"); // 게시글번호, 카테고리명, 제목, 내용, 작성자아이디
-	Attachment at = (Attachment)map.get("at"); // null(첨부파일이 없을경우) | 파일번호,원본명,수정명,저장경로 
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +18,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp"/>
     <!-- Header, Nav end -->
 
     <!-- Section start -->
@@ -34,37 +28,40 @@
         <h2 class="m-4">일반게시글 상세조회</h2>
 
         <div class="d-flex justify-content-end">
-          <% if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())) { %>
-          <a href="<%= contextPath %>/modify.bo?no=<%= b.getBoardNo() %>" class="btn btn-secondary btn-sm">수정하기 페이지로</a> &nbsp;
-          <button type="button" class="btn btn-danger btn-sm">삭제하기</button> &nbsp;
-          <% } %>
-          <a href="<%= contextPath %>/list.bo" class="btn btn-warning btn-sm">목록가기</a>
+        	<c:if test="${ loginUser.userId eq map.b.boardWriter }">
+	          <a href="${ contextPath }/modify.bo?no=${ map.b.boardNo }" class="btn btn-secondary btn-sm">수정하기 페이지로</a> &nbsp;
+	          <button type="button" class="btn btn-danger btn-sm">삭제하기</button> &nbsp;
+          </c:if>
+          <a href="${ contextPath }/list.bo" class="btn btn-warning btn-sm">목록가기</a>
         </div>
 
 				<br>
         <table class="table">
           <tr>
             <th width="100px">카테고리</th>
-            <td><%= b.getCategory() %></td>
+            <td>${ map.b.category }</td>
           </tr>
           <tr>
             <th>제목</th>
-            <td><%= b.getBoardTitle() %></td>
+            <td>${ map.b.boardTitle }</td>
           </tr>
           <tr>
             <th>내용</th>
-            <td><p style="min-height:200px; white-space:pre;"><%= b.getBoardContent() %></p></td>
+            <td><p style="min-height:200px; white-space:pre;">${ map.b.boardContent }</p></td>
           </tr>
           <tr>
             <th>첨부파일</th>
             <td>
-            	<% if(at == null) { %>
-	              <!-- case1. 첨부파일이 존재하지 않을 경우 -->
-	              첨부파일이 없음
-              <% }else { %>
-	              <!-- case2. 첨부파일이 존재할 경우 -->
-	              <a download="<%= at.getOriginName() %>" href="<%= contextPath + at.getFilePath() + at.getChangeName() %>" style="color: black"><%= at.getOriginName() %></a>
-              <% } %>
+            	<c:choose>
+            		<c:when test="${ empty map.at }"> 
+		              <!-- case1. 첨부파일이 존재하지 않을 경우 -->
+		              첨부파일이 없음
+								</c:when>
+								<c:otherwise>
+		              <!-- case2. 첨부파일이 존재할 경우 -->
+		              <a download="${ map.at.originName }" href="${contextPath}${map.at.filePath}${map.at.changeName}" style="color: black">${ map.at.originName }</a>
+								</c:otherwise>
+              </c:choose>
             </td>
           </tr>
         </table>
@@ -75,13 +72,16 @@
         		<tr>
         			<th style="vertical-align:middle">댓글작성</th>
         			
-        			<% if(loginUser == null){ %>
-        			<th width="650px"><textarea rows="3" class="form-control" style="resize:none;" readonly>로그인 후 이용가능한 서비스입니다.</textarea></th>
-        			<th style="vertical-align:middle"><button class="btn btn-secondary" disabled>댓글등록</button></th>
-        			<% }else { %>
-        			<th width="650px"><textarea rows="3" class="form-control" style="resize:none;" id="reply-content"></textarea></th>
-        			<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="fnReplyInsert();">댓글등록</button></th>
-        			<% } %>
+        			<c:choose>
+        				<c:when test="${ empty loginUser }">
+		        			<th width="650px"><textarea rows="3" class="form-control" style="resize:none;" readonly>로그인 후 이용가능한 서비스입니다.</textarea></th>
+	  	      			<th style="vertical-align:middle"><button class="btn btn-secondary" disabled>댓글등록</button></th>
+								</c:when>
+								<c:otherwise>
+		        			<th width="650px"><textarea rows="3" class="form-control" style="resize:none;" id="reply-content"></textarea></th>
+		        			<th style="vertical-align:middle"><button class="btn btn-secondary" onclick="fnReplyInsert();">댓글등록</button></th>
+								</c:otherwise>
+							</c:choose>
         		</tr>
         	</thead>
         	<tbody>
@@ -97,7 +97,7 @@
         		//$('#reply-area span').on('click', function(){ // 이벤트 제대로 안걸림
         		$('#reply-area').on('click', 'span', function() {
         			$.ajax({
-        				url: '<%=contextPath%>/delete.re',
+        				url: '${ contextPath }/delete.re',
         				data: {no: $(this).data('no')},
         				success: function(res){
         					if(res > 0){
@@ -116,9 +116,9 @@
         	// 댓글 작성용 함수 (ajax요청)
         	function fnReplyInsert() {
         		$.ajax({
-        			url: '<%=contextPath%>/insert.re',
+        			url: '${ contextPath }/insert.re',
         			data: {
-        				no: <%=b.getBoardNo()%>,
+        				no: ${ map.b.boardNo },
         				content: $("#reply-content").val()
         			},
         			type: "post",
@@ -138,8 +138,8 @@
         	function fnReplyList() {
         		
         		$.ajax({
-        			url: '<%=contextPath%>/list.re',
-        			data: {no: <%=b.getBoardNo()%>},
+        			url: '${ contextPath }/list.re',
+        			data: {no: ${ map.b.boardNo }},
         			success: function(res){
         				console.log(res); // [{Reply객체}, {Reply객체}, {Reply객체}]
         			
@@ -154,7 +154,7 @@
         								  + 	'<th>' + res[i].replyWriter + '</th>'
         								  +		'<td>' + res[i].replyContent;
         								  
-        					  if(res[i].replyWriter == '<%= loginUser == null ? "" : loginUser.getUserId()%>'){
+        					  if(res[i].replyWriter == '${ loginUser.userId }'){
         						  trEl += ' <span data-no="' + res[i].replyNo + '">x</span>';
         					  }
         					  
@@ -183,7 +183,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>

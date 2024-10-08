@@ -1,10 +1,7 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.br.web.board.model.vo.Category" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	List<Category> list = (List<Category>)request.getAttribute("list");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +13,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp"/>
     <!-- Header, Nav end -->
 
     <!-- Section start -->
@@ -25,15 +22,15 @@
 
         <h2 class="m-4">일반게시글 작성</h2>
         
-        <form action="<%= contextPath %>/insert.bo" method="post" enctype="multipart/form-data" class="m-4">
+        <form action="${ contextPath }/insert.bo" method="post" enctype="multipart/form-data" class="m-4">
           <table class="table">
             <tr>
               <th width="100">카테고리</th>
               <td>
                 <select name="category" class="form-control">
-                	<% for(Category c : list) { %>
-                  <option value="<%=c.getCategoryNo()%>"><%=c.getCategoryName()%></option>
-                  <% } %>
+                	<c:forEach var="c" items="${ list }">
+	                  <option value="${ c.categoryNo }">${ c.categoryName }</option>
+                  </c:forEach>
                 </select>
               </td>
             </tr>
@@ -64,7 +61,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>

@@ -1,12 +1,7 @@
-<%@ page import="java.util.*" %>
-<%@ page import="com.br.web.board.model.vo.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	Map<String, Object> map = (Map<String, Object>)request.getAttribute("map");
-	Board b = (Board)map.get("b");
-	List<Attachment> list = (List<Attachment>)map.get("list");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +24,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp"/>
     <!-- Header, Nav end -->
 
     <!-- Section start -->
@@ -43,19 +38,19 @@
 
 				  <!-- Indicators -->
 				  <ul class="carousel-indicators">
-				  	<% for(int i=0; i<list.size(); i++) { %>
-				    <li data-target="#img-content" data-slide-to="<%= i %>" class='<%= i==0 ? "active" : "" %>'></li>
-				    <% } %>
+				  	<c:forEach var="at" items="${ map.list }" varStatus="atStatus">
+				    	<li data-target="#img-content" data-slide-to="${ atStatus.index }" class='${ atStatus.index eq 0 ? "active" : ""}'></li>
+				    </c:forEach>
 				  </ul>
 				
 				  <!-- The slideshow -->
 				  <div class="carousel-inner">
 				  
-				  	<% for(int i=0; i<list.size(); i++) { %>
-				    <div class="carousel-item <%= i==0 ? "active" : "" %>">
-				      <img src="<%= contextPath + list.get(i).getFilePath() + list.get(i).getChangeName() %>">
+				  	<c:forEach var="at" items="${ map.list }" varStatus="atStatus">
+				    <div class="carousel-item ${ atStatus.index eq 0 ? 'active' : '' }">
+				      <img src="${ contextPath }${ at.filePath }${ at.changeName }">
 				    </div>
-				    <% } %>
+				    </c:forEach>
 				    
 				  </div>
 				
@@ -73,15 +68,15 @@
 				<table class="table m-4">
 					<tr>
 						<th>제목</th>
-						<td><%= b.getBoardTitle() %></td>
+						<td>${ map.b.boardTitle }</td>
 					</tr>
 					<tr>
 						<th>작성자</th>
-						<td><%= b.getBoardWriter() %></td>
+						<td>${ map.b.boardWriter }</td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td><p style="min-height:200px; white-space:pre;"><%= b.getBoardContent() %></p></td>
+						<td><p style="min-height:200px; white-space:pre;">${ map.b.boardContent }</p></td>
 					</tr>
 				</table>
 
@@ -90,7 +85,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>

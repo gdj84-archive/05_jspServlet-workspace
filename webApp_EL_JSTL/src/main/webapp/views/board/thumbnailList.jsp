@@ -1,10 +1,7 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.br.web.board.model.vo.Board" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	List<Board> list = (List<Board>)request.getAttribute("list");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +16,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp"/>
     <!-- Header, Nav end -->
 
 
@@ -29,29 +26,27 @@
 
         <h2 class="m-4">사진게시글 목록</h2>
 
-        <% if(loginUser != null) { %>
-        <div class="m-4 d-flex justify-content-end">
-          <a href="<%= contextPath %>/write.th" class="btn btn-secondary">등록하기</a>
-        </div>
-        <% } %>
-
+				<c:if test="${ not empty loginUser }">
+	        <div class="m-4 d-flex justify-content-end">
+	          <a href="${ contextPath }/write.th" class="btn btn-secondary">등록하기</a>
+	        </div>
+				</c:if>
+				
         <div class="board-list d-flex flex-wrap">
-
-					<% for(Board b : list){ %>
-          <div class="thumbnail card m-3" style="width:270px" data-no="<%=b.getBoardNo()%>">
-            <img class="card-img-top" style="width: 270px; height: 200px;" src="<%= contextPath + b.getTitleImgURL() %>">
-            <div class="card-body">
-              <p class="card-text"><%= b.getBoardTitle() %></p>
-            </div>
-          </div>
-          <% } %>
-					 
+					<c:forEach var="b" items="${ list }">
+	          <div class="thumbnail card m-3" style="width:270px" data-no="${ b.boardNo }">
+	            <img class="card-img-top" style="width: 270px; height: 200px;" src="${ contextPath }${ b.titleImgURL }">
+	            <div class="card-body">
+	              <p class="card-text">${ b.boardTitle }</p>
+	            </div>
+	          </div>
+					</c:forEach>					 
         </div>
         
         <script>
         	$(function() {
         		$('.thumbnail').on('click', function() {
-        			location.href = '<%= contextPath %>/detail.th?no=' + $(this).data('no');
+        			location.href = '${ contextPath }/detail.th?no=' + $(this).data('no');
         		})
         	})
         </script>
@@ -62,7 +57,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp"/>
     <!-- Header, Nav end -->
 
     <!-- Section start -->
@@ -20,7 +22,7 @@
       <div class="container border p-5 m-4 rounded">
         <h2 class="m-4">회원가입</h2>
         
-        <form id="signup-form" action="<%= contextPath %>/insert.me" method="post" class="m-4">
+        <form id="signup-form" action="${ contextPath }/insert.me" method="post" class="m-4">
           <table class="table">
             <tr>
               <th>* 아이디</th>
@@ -96,7 +98,7 @@
         		const $idInput = $("#signup-form input[name=userId]");
         		
         		$.ajax({
-        			url: '<%= contextPath %>/idcheck.me',
+        			url: '${ contextPath }/idcheck.me',
         			data: {checkId: $idInput.val()},
         			success: function(res){
         				console.log(res);
@@ -127,7 +129,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>

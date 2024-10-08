@@ -1,13 +1,11 @@
-<%@ page import="java.util.*" %>
-<%@ page import="com.br.web.board.model.vo.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	List<Category> list = (List<Category>)request.getAttribute("list");
-	Map<String, Object> map = (Map<String, Object>)request.getAttribute("map");
-	Board b = (Board)map.get("b"); // 게시글번호, 제목, 내용, 작성자, 카테고리명
-	Attachment at = (Attachment)map.get("at"); // null | 파일번호, 원본명, 수정명, 저장경로
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
+
+<!-- map내의 Board객체, Attachment 객체를 꺼내서 b, at 이름으로 세팅해두기 -->
+<c:set var="b" value="${ map.b }"/>
+<c:set var="at" value="${ map.at }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +16,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp"/>
     <!-- Header, Nav end -->
 
     <!-- Section start -->
@@ -27,34 +25,34 @@
 
         <h2 class="m-4">일반게시글 수정</h2>
         
-        <form action="<%= contextPath %>/update.bo" method="post" enctype="multipart/form-data" class="m-4">
-          <input type="hidden" name="no" value="<%= b.getBoardNo() %>">
+        <form action="${ contextPath }/update.bo" method="post" enctype="multipart/form-data" class="m-4">
+          <input type="hidden" name="no" value="${ b.boardNo }">
           <table class="table">
             <tr>
               <th width="100">카테고리</th>
               <td>
-                <select name="category" class="form-control">
-                	<% for(Category c : list){ %>
-                  <option value="<%= c.getCategoryNo() %>" <%= c.getCategoryName().equals(b.getCategory()) ? "selected" : "" %>><%= c.getCategoryName() %></option>
-                  <% } %>
+              	<select name="category" class="form-control">
+                	<c:forEach var="c" items="${ list }">
+	                  <option value="${ c.categoryNo }" ${ c.categoryName eq b.category ? "selected" : "" }>${ c.categoryName }</option>
+                  </c:forEach>
                 </select>
               </td>
             </tr>
             <tr>
               <th>제목</th>
-              <td><input type="text" class="form-control" required name="title" value="<%=b.getBoardTitle()%>"></td>
+              <td><input type="text" class="form-control" required name="title" value="${ b.boardTitle }"></td>
             </tr>
             <tr>
               <th>내용</th>
-              <td><textarea rows="10" class="form-control" style="resize:none;" name="content" required><%= b.getBoardContent() %></textarea></td>
+              <td><textarea rows="10" class="form-control" style="resize:none;" name="content" required>${ b.boardContent }</textarea></td>
             </tr>
             <tr>
               <th>첨부파일</th>
               <td>
-                <% if(at != null) { %>
-                	<%= at.getOriginName() %> <br>
-                	<input type="hidden" name="originFileNo" value="<%=at.getFileNo()%>">
-								<% } %>
+              	<c:if test="${ not empty at }">
+                	${ at.originName } <br>
+                	<input type="hidden" name="originFileNo" value="${ at.fileNo }">
+								</c:if>
                 <!-- 새로이 첨부파일 업로드 해서 수정 가능 -->
                 <input type="file" name="upfile">
               </td>
@@ -74,7 +72,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>

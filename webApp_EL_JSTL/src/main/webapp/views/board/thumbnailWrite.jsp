@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +18,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp"/>
     <!-- Header, Nav end -->
 
     <!-- Section start -->
@@ -25,7 +27,7 @@
 
         <h2 class="m-4">사진게시글 작성</h2>
         
-        <form action="<%= contextPath %>/insert.th" method="post" enctype="multipart/form-data" class="m-4">
+        <form action="${ contextPath }/insert.th" method="post" enctype="multipart/form-data" class="m-4">
           <table class="table">
             <tr>
               <th>제목</th>
@@ -104,7 +106,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>

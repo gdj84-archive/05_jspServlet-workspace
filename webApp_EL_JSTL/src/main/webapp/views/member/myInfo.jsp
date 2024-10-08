@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,7 @@
 	<div class="container p-3">
 
     <!-- Header, Nav start -->
-    <%@ include file="/views/common/header.jsp" %>
+    <jsp:include page="/views/common/header.jsp"/>
     <!-- Header, Nav end -->
 
     <!-- Section start -->
@@ -20,31 +22,31 @@
       <div class="container border p-5 m-4 rounded">
         <h2 class="m-4">마이페이지</h2>
         
-        <form action="<%= contextPath %>/update.me" method="post" class="m-4">
+        <form action="${ contextPath }/update.me" method="post" class="m-4">
           <table class="table">
             <tr>
               <th>* 아이디</th>
-              <td><input type="text" class="form-control" placeholder="Enter Your ID" name="userId" value="<%= loginUser.getUserId() %>" readonly></td>
+              <td><input type="text" class="form-control" placeholder="Enter Your ID" name="userId" value="${ loginUser.userId }" readonly></td>
               <td></td>
             </tr>
             <tr>
               <th>* 이름</th>
-              <td><input type="text" class="form-control" placeholder="Enter Your Name" name="userName" value="<%= loginUser.getUserName() %>" required></td>
+              <td><input type="text" class="form-control" placeholder="Enter Your Name" name="userName" value="${ loginUser.userName }" required></td>
               <td></td>
             </tr>
             <tr>
               <th>&nbsp;&nbsp;전화번호</th>
-              <td><input type="text" class="form-control" placeholder="Enter Your Phone (- include)" name="phone" value='<%= loginUser.getPhone() == null ? "" : loginUser.getPhone() %>'></td>
+              <td><input type="text" class="form-control" placeholder="Enter Your Phone (- include)" name="phone" value='${ loginUser.phone }'></td>
               <td></td>
             </tr>
             <tr>
               <th>&nbsp;&nbsp;이메일</th>
-              <td><input type="text" class="form-control" placeholder="Enter Your Email (@ include)" name="email" value='<%= loginUser.getEmail() == null ? "" : loginUser.getEmail() %>'></td>
+              <td><input type="text" class="form-control" placeholder="Enter Your Email (@ include)" name="email" value='${ loginUser.email }'></td>
               <td></td>
             </tr>
             <tr>
               <th>&nbsp;&nbsp;주소</th>
-              <td><input type="text" class="form-control" placeholder="Enter Your Address" name="address" value='<%= loginUser.getAddress() == null ? "" : loginUser.getAddress() %>'></td>
+              <td><input type="text" class="form-control" placeholder="Enter Your Address" name="address" value='${ loginUser.address }'></td>
               <td></td>
             </tr>
             <tr>
@@ -65,7 +67,7 @@
               </td>
               <script>
               	$(function() {
-              		let interest = '<%=loginUser.getInterest() == null ? "" : loginUser.getInterest()%>';
+              		let interest = '${ loginUser.interest }';
               		// "" | "운동,등산"
               		
               		$(":checkbox").each(function(idx, el) { // el : 순차적으로 접근되는 체크박스 요소
@@ -93,7 +95,7 @@
     <!-- Section end -->
 
     <!-- Footer start -->
-    <%@ include file="/views/common/footer.jsp" %>
+    <jsp:include page="/views/common/footer.jsp"/>
     <!-- Footer end -->
 
   </div>
@@ -111,8 +113,8 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-          <form action="<%= contextPath %>/updatePwd.me" method="post">
-          	<input type="hidden" name="userId" value="<%= loginUser.getUserId() %>">
+          <form action="${ contextPath }/updatePwd.me" method="post">
+          	<input type="hidden" name="userId" value="${ loginUser.userId }">
             <table align="center">
               <tr>
                 <th>* 현재 비밀번호</th>
@@ -152,7 +154,7 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-          <form action="<%= contextPath %>/delete.me" method="post">
+          <form action="${ contextPath }/delete.me" method="post">
             <table align="center">
               <tr>
                 <th colspan="2">

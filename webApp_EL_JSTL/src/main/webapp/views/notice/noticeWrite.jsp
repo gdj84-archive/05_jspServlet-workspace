@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +22,7 @@
       <div class="container border p-5 m-4 rounded">
         <h2 class="m-4">공지사항 등록</h2>
         
-        <form action="<%= contextPath %>/insert.no" method="post" class="m-4">
+        <form action="${ contextPath }/insert.no" method="post" class="m-4">
           <table class="table">
             <tr>
               <th>제목</th>
