@@ -155,10 +155,85 @@
 		</c:otherwise>
 	</c:choose>
 	
+	<hr>
+	
+	<h3>3. 반복문</h3>
+	<%--
+		* <c:forEach>
+		  1. 자바에서의 for문을 대체하는 구문 
+		  2. 형식
+		     1) for loop문
+		     		<c:forEach var="" begin="" end="" [step=""]> </c:forEach>
+		     2) 향상된 for문
+		     		<c:forEach var="" items="" [varStatus=""]> </c:forEach>
+		  3. 주요 속성
+		     1) * var   : 반복문 돌때 마다 순차적으로 증가된 값을 받기 위한 변수
+		     2) * begin : 초기값
+		     3) * end   : 최종값
+		     4)   step  : 증가값, 생략시 기본값 1
+		     --------------------------------------------------------------------
+		     5) * var   : 반복문 돌 때 마다 접근되는 요소를 받기 위한 변수
+		     6) * items : 순차적으로 접근하고자 하는 객체(배열|컬렉션)
+		     7)   varStatus : 현재 접근된 요소의 상태값을 담기위한 변수 (count:순번, index:인덱스)
+ 	--%>
+ 	
+ 	<%-- 
+ 	<% for(int i=1; i<=10; i+=2){ %>
+ 	
+ 	<% } %>
+	--%>
+	
+	<c:forEach var="i" begin="1" end="10" step="2">
+		반복확인 : ${ i } <br>
+	</c:forEach>
+	
+	<c:forEach var="i" begin="1" end="6">
+		<h${i}>태그안에도 적용 가능</h${i}>
+	</c:forEach>
 	
 	
+	<%@ page import="java.util.*, com.br.elJstl.model.vo.Person" %>
+	<%
+		String[] colorArr = {"red", "yellow", "green", "pink"};
+		request.setAttribute("colors", colorArr);
+		
+		List<Person> personList = new ArrayList<>();
+		personList.add(new Person("홍길동", 20, "남자"));
+		personList.add(new Person("홍길녀", 30, "여자"));
+		personList.add(new Person("홍길순", 40, "여자"));
+		request.setAttribute("list", personList);
+	%>
 	
+	<%-- 
+	<% for(String c : colorArr) { %>
 	
+	<% } %>
+	--%>
+	
+	<ul>
+		<c:forEach var="c" items="${ colors }">
+			<li style="color:${c}">${ c }</li>
+		</c:forEach>
+	</ul>
+	
+	<%-- 
+	<% for(Person p : personList) { %>
+	
+	<% } %>
+	--%>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>이름</th>
+				<th>나이</th>
+				<th>성별</th>
+			</tr>
+		</thead>
+		<tbody>
+		
+		</tbody>
+	</table>
 	
 	
 	
