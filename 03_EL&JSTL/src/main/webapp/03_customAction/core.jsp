@@ -231,9 +231,67 @@
 			</tr>
 		</thead>
 		<tbody>
-		
+			<c:forEach var="p" items="${ list }" varStatus="sta">
+				<tr>
+					<td>순번: ${ sta.count }, 인덱스: ${ sta.index }</td>
+					<td>${ p.name }</td>
+					<td>${ p.age }</td>
+					<td>${ p.gender }</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
+	
+	<%--
+		* <c:forTokens>
+		  1. 자바에서의 split 또는 StringTokenizer와 같은 구문으로 
+		     구분자로 문자열 분리 후 반복문 수행시키는 구문
+		  2. 형식
+		     <c:forTokens var="" items="" delims=""> </c:forTokens>
+		  3. 주요속성
+		     1) * var    : 순차적으로 분리된 문자열들을 전달받을 변수
+		     2) * items  : 분리시켜 반복문 돌리고자하는 데이터
+		     3) * delims : 분리 기준의 구분자    
+	--%>
+	
+	<c:set var="device" value="컴퓨터,핸드폰,TV.에어컨/냉장고.세탁기"/>
+	
+	<ol>
+		<c:forTokens var="d" items="${ device }" delims=",./">
+			<li>${ d }</li>
+		</c:forTokens>
+	</ol>
+	
+	<hr>
+	
+	<h3>4. url제작</h3>
+	<%--
+		* <c:url>, <c:param>
+		  1. 요청할 url을 생성하고 쿼리스트링(요청시 전달값)을 정의해둘 수 있는 구문
+		  2. 형식
+		     <c:url var="" value="">
+		     	 <c:param name="" value=""/>
+		     	 <c:param name="" value=""/>
+		     </c:url>
+		  3. 주요 속성
+		     1) * var   : 최종적으로 제작된 url 구문을 받기 위한 변수 
+		     2) * value : 요청할 url 
+		     --------------------------------------------------------
+		     3) * name  : 파라미터(요청시전달값)명 == 키값
+		     4) * value : 파라미터(요청시전달값)값 == 밸류값
+	--%>
+	
+	<a href="${ contextPath }/test.do?name=홍길동&age=10">기존방식(url 직접 작성)</a> <br>
+	
+	<%-- String mkUrl = "/elJstl/test.do?name=홍길동&age=10" --%>
+	
+	<%-- value에 / == contextPath --%>
+	<c:url var="mkUrl" value="/test.do">
+		<c:param name="name" value="홍길동" />
+		<c:param name="age" value="10" />
+	</c:url>
+	
+	<a href="${ mkUrl }">c:url로 제작한 url로 요청하는 방식</a>
 	
 	
 	
