@@ -1,12 +1,7 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.br.web.notice.model.vo.Notice" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
-<%
-	//List<Notice> list = (List<Notice>)request.getAttribute("list");
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,11 +23,11 @@
 
       <h2 class="m-4">공지사항 목록</h2>
 
-      <% if(loginUser != null && loginUser.getStatus().equals("A")) { %>
-      <div align="right">
-        <a href="${ contextPath }/write.no" class="btn btn-secondary btn-sm">등록하기</a>
-      </div>
-      <% } %>
+			<c:if test="${ loginUser.status eq 'A' }">
+	      <div align="right">
+	        <a href="${ contextPath }/write.no" class="btn btn-secondary btn-sm">등록하기</a>
+	      </div>
+      </c:if>
 
       <br>
       <table id="notice-list" class="table">
@@ -45,35 +40,37 @@
           </tr>
         </thead>
         <tbody>
-        	<% if(list.isEmpty()) { %>
-          <!-- case1. 조회된 공지글이 없을 경우 -->
-          <tr>
-            <td colspan="4" style="text-align:center">존재하는 공지사항글이 없습니다.</td>
-          </tr>
-          <% } else { %>
-          	<!-- case2. 조회된 공지글이 있을 경우 -->
-          	<% for(Notice n : list) { %>
-	          <tr class="board-title" data-toggle="collapse" data-target="#notice<%=n.getNoticeNo()%>">
-	            <td><%= n.getNoticeNo() %></td>
-	            <td><%= n.getNoticeTitle() %></td>
-	            <td><%= n.getNoticeWriter() %></td>
-	            <td><%= n.getRegistDt() %></td>
-	          </tr>
-	          <tr class="board-content collapse" id="notice<%=n.getNoticeNo()%>">
-	            <td colspan="4">
-	              <p class="border rounded p-3 w-75 mx-auto" style="min-height: 150px; white-space:pre;"><%= n.getNoticeContent() %></p>
-	              
-	              <% if(loginUser != null && loginUser.getUserId().equals(n.getNoticeWriter())) { %>
-	              <div align="center">
-	                <a href="${ contextPath }/modify.no?no=<%= n.getNoticeNo() %>" class="btn btn-secondary btn-sm">수정하기</a>
-	                <a href="${ contextPath }/delete.no?no=<%= n.getNoticeNo() %>" class="btn btn-danger btn-sm">삭제하기</a>
-	              </div>
-	              <% } %>
-	            </td>
-	          </tr>
-						<% } %>
-					<% } %>
-
+        	<c:choose>
+        		<c:when test="${ empty list }">
+		          <!-- case1. 조회된 공지글이 없을 경우 -->
+		          <tr>
+		            <td colspan="4" style="text-align:center">존재하는 공지사항글이 없습니다.</td>
+		          </tr>
+	          </c:when>
+	          <c:otherwise>
+	          	<!-- case2. 조회된 공지글이 있을 경우 -->
+	          	<c:forEach var="n" items="${ list }">
+			          <tr class="board-title" data-toggle="collapse" data-target="#notice${ n.noticeNo }">
+			            <td>${ n.noticeNo }</td>
+			            <td>${ n.noticeTitle }</td>
+			            <td>${ n.noticeWriter }</td>
+			            <td>${ n.registDt }</td>
+			          </tr>
+			          <tr class="board-content collapse" id="notice${ n.noticeNo }">
+			            <td colspan="4">
+			              <p class="border rounded p-3 w-75 mx-auto" style="min-height: 150px; white-space:pre;">${ n.noticeContent }</p>
+			              
+			              <c:if test="${ loginUser.userId eq n.noticeWriter }">
+				              <div align="center">
+				                <a href="${ contextPath }/modify.no?no=${ n.noticeNo }" class="btn btn-secondary btn-sm">수정하기</a>
+				                <a href="${ contextPath }/delete.no?no=${ n.noticeNo }" class="btn btn-danger btn-sm">삭제하기</a>
+				              </div>
+			              </c:if>
+			            </td>
+			          </tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
         </tbody>
       </table>
       
